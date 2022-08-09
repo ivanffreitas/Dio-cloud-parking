@@ -3,6 +3,7 @@ package br.com.ivanilson.cloudparking.service;
 import br.com.ivanilson.cloudparking.model.Parking;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +16,12 @@ public class ParkingServise {
     private static Map<String, Parking> parkingMap = new HashMap();
 
     static {
-        var id = getUUID();
-        Parking parking = new Parking(id,"DMS-1111","SC", "CELTA","PRETO", null, null,null);
-        parkingMap.put(id,parking);
+        var id1 = getUUID();
+        var id2 = getUUID();
+        Parking parking1 = new Parking(id1,"DMS-1111","SC", "CELTA","PRETO", null, null,null);
+        Parking parking2 = new Parking(id2,"DTG-1431","PE", "FOX","BRANCO", null, null,null);
+        parkingMap.put(id1,parking1);
+        parkingMap.put(id2,parking2);
     }
 
     public List<Parking> findAll(){
@@ -26,5 +30,17 @@ public class ParkingServise {
 
     private static String getUUID() {
         return UUID.randomUUID().toString().replace("-","");
+    }
+
+    public Parking findById(String id) {
+        return parkingMap.get(id);
+    }
+
+    public Parking create(Parking parkingCreate) {
+        String uuid = getUUID();
+        parkingCreate.setId(uuid);
+        parkingCreate.setEntryDate(LocalDateTime.now());
+        parkingMap.put(uuid, parkingCreate);
+        return parkingCreate;
     }
 }
