@@ -5,9 +5,6 @@ import br.com.ivanilson.cloudparking.controller.DTO.ParkingDTO;
 import br.com.ivanilson.cloudparking.controller.mapper.ParkingMapper;
 import br.com.ivanilson.cloudparking.model.Parking;
 import br.com.ivanilson.cloudparking.service.ParkingServise;
-import io.swagger.v3.oas.annotations.OpenAPI31;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,5 +58,11 @@ public class ParkingController {
         Parking parking = parkingServise.update(id, parkingCreate);
         ParkingDTO result = parkingMapper.toParkingDTO(parking);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<ParkingDTO> checkOut(@PathVariable String id){
+        Parking parking = parkingServise.checkOut(id);
+        return ResponseEntity.ok(parkingMapper.toParkingDTO(parking));
     }
 }
